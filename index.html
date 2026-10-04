@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DOMMY</title>
+    </head>
+
+    <body>
+        <div style="display: flex; align-items: center; gap: 10px;">
+        <img src="Logo.jpeg" alt="logo" width="100" height="100" />
+        <h1 style="font-style: italic;">DOMMY</h1>
+        </div>
+        <p align="center">upload resume</p>
+        <lr>
+        <style>
+    .dropzone {
+        border: 2px dashed #888;
+        border-radius: 8px;
+        padding: 60px 20px;
+        text-align: center;
+        max-width: 600px;
+        margin: 20px auto;
+        transition: background 0.2s, border-color 0.2s;
+    }
+    .dropzone.dragover {
+        background: #eef6ff;
+        border-color: #1a73e8;
+    }
+    .dropzone label {
+        color: #1a73e8;
+        cursor: pointer;
+    }
+    #file-input {
+        display: none;
+    }
+</style>
+
+<div class="dropzone" id="dropzone">
+    <h3>Drag your resume here</h3>
+    <p>Or <label for="file-input">choose your file</label></p>
+    <p id="file-name"></p>
+    <input type="file" id="file-input" accept=".pdf" />
+</div>
+
+<script>
+    const dropzone = document.getElementById("dropzone");
+    const fileInput = document.getElementById("file-input");
+    const fileName = document.getElementById("file-name");
+
+    // Prevent the browser from opening the file when dropped
+    ["dragenter", "dragover", "dragleave", "drop"].forEach(evt => {
+        dropzone.addEventListener(evt, e => e.preventDefault());
+    });
+
+    // Highlight the box while dragging over it
+    ["dragenter", "dragover"].forEach(evt => {
+        dropzone.addEventListener(evt, () => dropzone.classList.add("dragover"));
+    });
+    ["dragleave", "drop"].forEach(evt => {
+        dropzone.addEventListener(evt, () => dropzone.classList.remove("dragover"));
+    });
+
+    // Handle a dropped file
+    dropzone.addEventListener("drop", e => {
+        const file = e.dataTransfer.files[0];
+        handleFile(file);
+    });
+
+    // Handle a file picked through the dialog
+    fileInput.addEventListener("change", () => {
+        handleFile(fileInput.files[0]);
+    });
+
+    function handleFile(file) {
+        if (!file) return;
+        if (file.type !== "application/pdf") {
+            fileName.textContent = "Please upload a PDF file.";
+            return;
+        }
+        fileName.textContent = "Selected: " + file.name;
+    }
+</script>
+
+     <label for="job">Target Job:</label>
+<select id="job" name="job">
+    <option value="">Select a job</option>
+    <option value="cloud-engineer">Cloud Engineer</option>
+    <option value="devops-engineer">DevOps Engineer</option>
+    <option value="software-developer">Software Developer</option>
+    <option value="data-scientist">Data Scientist</option>
+    <option value="ml-engineer">ML Engineer</option>
+</select>
+<br/>
+<br/>
+<button type="submit">Analyze</button> 
+    </body>
+
+    
+</html>
